@@ -33,7 +33,7 @@ class ClusterConstruct(Construct):
                         "vpc-test"
                     )
 
-        aws_eks.Cluster(self, "HelloEKS",
+        aws_eks.Cluster(self, "analytics-cluster",
             version=aws_eks.KubernetesVersion.V1_21,
             vpc=vpc,
             vpc_subnets=[aws_ec2.SubnetSelection(subnet_type=aws_ec2.SubnetType.PRIVATE_WITH_NAT)]
