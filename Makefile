@@ -7,5 +7,8 @@ synth:
 deploy:
 	cdk deploy --qualifier analytics --toolkit-stack-name analytics
 
+destroy:
+	cdk destroy
+
 k8s:
 	scripts/connect-k8s.sh

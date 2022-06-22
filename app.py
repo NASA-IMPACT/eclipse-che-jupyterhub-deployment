@@ -3,7 +3,7 @@
 
 from aws_cdk import App, Stack, Tags, aws_iam,DefaultStackSynthesizer
 from constructs import Construct
-from cluster.construct import ClusterConstruct
+from cdk.cluster.construct import ClusterConstruct
 
 app = App()
 

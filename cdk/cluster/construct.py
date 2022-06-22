@@ -7,6 +7,7 @@ from aws_cdk import (
     Stack,
     aws_eks,
     aws_ec2,
+    aws_iam,
 )
 from constructs import Construct
 
@@ -26,15 +27,25 @@ class ClusterConstruct(Construct):
         super().__init__(scope, construct_id)
 
         # TODO config
-        stack_name = Stack.of(self).stack_name
+        stack = Stack.of(self)
 
         vpc = aws_ec2.Vpc(
                         self,
                         "vpc-test"
                     )
 
-        aws_eks.Cluster(self, "analytics-cluster",
+        account_id = stack.account
+        role = aws_iam.Role(self, "analytics-cluster-role",
+                            assumed_by = aws_iam.AccountPrincipal(account_id),
+                            description = "Cluster admin role for analytics cluster")
+
+        cluster = aws_eks.Cluster(self, "analytics-cluster",
             version=aws_eks.KubernetesVersion.V1_21,
             vpc=vpc,
-            vpc_subnets=[aws_ec2.SubnetSelection(subnet_type=aws_ec2.SubnetType.PRIVATE_WITH_NAT)]
+            vpc_subnets=[aws_ec2.SubnetSelection(subnet_type=aws_ec2.SubnetType.PRIVATE_WITH_NAT)],
+            masters_role=role,
         )
+
+
+        # print the IAM role arn for this service account
+        CfnOutput(self, "ClusterIamRole", value=role.role_arn)
