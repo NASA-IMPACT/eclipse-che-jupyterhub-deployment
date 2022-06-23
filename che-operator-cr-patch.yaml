@@ -1,0 +1,10 @@
+---
+apiVersion: org.eclipse.che/v1
+kind: CheCluster
+metadata:
+  name: eclipse-che
+spec:
+  auth:
+    identityProviderURL: https://cognito-idp.us-west-2.amazonaws.com/us-west-2_OJVQQhBQQ
+    oAuthClientName: <ID>
+    oAuthSecret: <SECRET>

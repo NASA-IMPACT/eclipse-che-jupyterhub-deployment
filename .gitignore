@@ -140,3 +140,5 @@ package*.json
 cdk.context.json
 
 .idea
+
+scripts/che-install.sh
