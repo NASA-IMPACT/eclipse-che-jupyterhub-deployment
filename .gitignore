@@ -141,4 +141,5 @@ cdk.context.json
 
 .idea
 
+che-operator-cr-patch.yaml
 scripts/che-install.sh
