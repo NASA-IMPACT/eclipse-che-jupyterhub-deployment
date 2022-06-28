@@ -26,3 +26,7 @@ jobs:
           context: .
           push: true
           tags: 'ghcr.io/developmentseed/nasa-analytics-environment-deploy:latest'
+      - uses: addnab/docker-run-action@v3
+        with:
+          image: 'ghcr.io/developmentseed/nasa-analytics-environment-deploy:latest'
+          options: -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
