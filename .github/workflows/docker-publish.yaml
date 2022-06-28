@@ -60,6 +60,10 @@ jobs:
       - name: Test K8s cluster
         run: |
           kubectl get no
+      - name: Deploy nginx ingresscontroller
+        run: |
+          cd /opt
+          make deploy-nginx-ingresscontroller
       - name: Deploy cloud infra
         run: |
           cd /opt
