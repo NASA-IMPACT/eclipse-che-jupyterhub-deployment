@@ -25,4 +25,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: 'developmentseed/nasa-analytics-environment-deploy:latest'
+          tags: 'ghcr.io/developmentseed/nasa-analytics-environment-deploy:latest'
