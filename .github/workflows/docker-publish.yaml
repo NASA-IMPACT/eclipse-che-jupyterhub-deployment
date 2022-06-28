@@ -38,9 +38,29 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - name: Run deploy
+      - name: Bootstrap account
         shell: bash
         run: |
           cd /opt
-          ./entrypoint.sh
-          exit $?
+          make bootstrap
+      - name: Install chectl
+        shell: bash
+        run: |
+          cd /opt
+          make install-che
+      - name: Deploy cloud infra
+        shell: bash
+        run: |
+          cd /opt
+          make deploy-cloud
+      - name: Load K8s context
+        run: |
+          cd /opt
+          make k8s
+      - name: Test K8s cluster
+        run: |
+          kubectl get no
+      - name: Deploy cloud infra
+        run: |
+          cd /opt
+          make deploy-che
