@@ -30,14 +30,11 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Log in to the Container registry
-        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+      - name: Run deploy
+        uses: addnab/docker-run-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Run deploy
-        uses: addnab/docker-run-action@v3
-        with:
           image: 'ghcr.io/developmentseed/nasa-analytics-environment-deploy:latest'
           options: -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
