@@ -38,3 +38,4 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           image: 'ghcr.io/developmentseed/nasa-analytics-environment-deploy:latest'
           options: -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          run: '/opt/entrypoint.sh'
