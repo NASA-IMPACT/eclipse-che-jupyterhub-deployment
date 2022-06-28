@@ -15,7 +15,7 @@ synth:
 deploy: deploy-cloud k8s deploy-che
 
 deploy-che:
-	chectl server:deploy --platform k8s --domain test.test
+	chectl server:deploy --platform k8s --domain test.test --telemetry=off
 
 deploy-cloud:
 	cdk deploy --qualifier analytics --toolkit-stack-name analytics
