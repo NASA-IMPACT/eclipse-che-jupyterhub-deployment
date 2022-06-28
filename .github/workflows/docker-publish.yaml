@@ -25,7 +25,10 @@ jobs:
         with:
           context: .
           push: true
-          tags: 'ghcr.io/developmentseed/nasa-analytics-environment-deploy:latest'
+          tags: 'ghcr.io/developmentseed/nasa-analytics-environment-deploy:latest'#
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
       - uses: addnab/docker-run-action@v3
         with:
           image: 'ghcr.io/developmentseed/nasa-analytics-environment-deploy:latest'
