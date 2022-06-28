@@ -15,7 +15,7 @@ synth:
 deploy: deploy-cloud k8s deploy-nginx-ingresscontroller deploy-che
 
 deploy-che:
-	chectl server:deploy --platform k8s --domain test.test --skip-oidc-provider-check --telemetry=off
+	chectl server:deploy --platform k8s --domain abde636e56bc747caa12c9c7be384db1-1038284948.us-west-2.elb.amazonaws.com --skip-oidc-provider-check --telemetry=off
 
 deploy-nginx-ingresscontroller:
 	kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.2.0/deploy/static/provider/cloud/deploy.yaml
