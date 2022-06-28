@@ -38,4 +38,5 @@ jobs:
       - name: Run deploy
         shell: bash
         run: |
-          '/opt/entrypoint.sh'
+          cd /opt
+          ./entrypoint.sh
