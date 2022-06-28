@@ -25,17 +25,17 @@ jobs:
         with:
           context: .
           push: true
-          tags: 'ghcr.io/developmentseed/nasa-analytics-environment-deploy:latest'#
+          tags: 'ghcr.io/developmentseed/nasa-analytics-environment-deploy:latest'
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    steps:
-      - name: Run deploy
-        uses: addnab/docker-run-action@v3
-        with:
-          registry: ghcr.io
+    container:
+      image: 'ghcr.io/developmentseed/nasa-analytics-environment-deploy:latest'
+      credentials:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          image: 'ghcr.io/developmentseed/nasa-analytics-environment-deploy:latest'
-          options: -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          run: '/opt/entrypoint.sh'
+    steps:
+      - name: Run deploy
+        shell: bash
+        run: |
+          '/opt/entrypoint.sh'
