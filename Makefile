@@ -18,7 +18,7 @@ deploy: deploy-cloud k8s deploy-nginx-ingresscontroller deploy-che
 deploy-all: bootstrap install-che deploy
 
 deploy-che:
-	envsubst < operator-patch-envs.yaml > che-operator-cr-patch.yaml
+	envsubst < che-operator-cr-patch.yaml > operator-patch-envs.yaml
 	chectl server:deploy --platform k8s --che-operator-cr-patch-yaml=operator-patch-envs.yaml --domain analytics.delta-backend.com --skip-oidc-provider-check --telemetry=off
 	scripts/setup-che.sh
 
