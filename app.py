@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """ CDK Configuration for the nasa-analytics stack."""
 
+import os
 from aws_cdk import App, Stack, Tags, DefaultStackSynthesizer
 from constructs import Construct
 from cdk.cluster.construct import ClusterConstruct
@@ -16,7 +17,10 @@ class AnalyticsStack(Stack):
         """."""
         super().__init__(scope, construct_id, **kwargs)
 
-analytics_stack = AnalyticsStack( app, "analytics-stack",synthesizer=DefaultStackSynthesizer(qualifier="analytics"))
+
+qualifier = os.getenv('QUALIFIER')
+
+analytics_stack = AnalyticsStack( app, "analytics-stack",synthesizer=DefaultStackSynthesizer(qualifier=qualifier))
 
 cluster = ClusterConstruct(analytics_stack, "cluster")
 iam = IamConstruct(analytics_stack, "iam")
