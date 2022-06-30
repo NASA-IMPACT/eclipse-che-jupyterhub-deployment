@@ -19,7 +19,7 @@ class AnalyticsStack(Stack):
 
 
 qualifier = os.getenv('QUALIFIER')
-print(f"Qualifier is {qualifier}")
+
 analytics_stack = AnalyticsStack( app, "analytics-stack",synthesizer=DefaultStackSynthesizer(qualifier=qualifier))
 
 cluster = ClusterConstruct(analytics_stack, "cluster")
