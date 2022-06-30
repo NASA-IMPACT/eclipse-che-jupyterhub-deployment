@@ -1,9 +1,6 @@
 """CDK Construct for a EKS based Kubernetes cluster."""
-import os
 
 from aws_cdk import (
-    CfnOutput,
-    Duration,
     Stack,
     aws_eks,
     aws_ec2,
@@ -45,4 +42,3 @@ class ClusterConstruct(Construct):
                                       aws_ec2.SubnetSelection(subnet_type=aws_ec2.SubnetType.PRIVATE_WITH_NAT)],
                                   masters_role=role,
                                   )
-

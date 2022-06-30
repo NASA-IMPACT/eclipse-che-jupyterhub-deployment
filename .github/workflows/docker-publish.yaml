@@ -1,0 +1,70 @@
+name: Docker Build
+
+on:
+  push:
+    # Publish `main` as Docker `latest` image.
+    branches:
+      - main
+env:
+  IMAGE_NAME: image
+
+jobs:
+  # See also https://docs.docker.com/docker-hub/builds/automated-testing/
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Log in to the Container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: .
+          push: true
+          tags: 'ghcr.io/developmentseed/nasa-analytics-environment-deploy:latest'
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    container:
+      image: 'ghcr.io/developmentseed/nasa-analytics-environment-deploy:latest'
+      credentials:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Bootstrap account
+        shell: bash
+        run: |
+          cd /opt
+          make bootstrap
+      - name: Install chectl
+        shell: bash
+        run: |
+          cd /opt
+          make install-che
+      - name: Deploy cloud infra
+        shell: bash
+        run: |
+          cd /opt
+          make deploy-cloud
+      - name: Load K8s context
+        run: |
+          cd /opt
+          make k8s
+      - name: Test K8s cluster
+        run: |
+          kubectl get no
+      - name: Deploy nginx ingresscontroller
+        run: |
+          cd /opt
+          make deploy-nginx-ingresscontroller
+      - name: Deploy cloud infra
+        run: |
+          cd /opt
+          make deploy-che
