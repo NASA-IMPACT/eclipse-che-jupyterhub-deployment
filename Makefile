@@ -1,3 +1,5 @@
+QUALIFIER ?= "analytics"
+
 install-dependencies:
 	npm install --location=global aws-cdk
 	python3 -m pip install -e ".[dev,deploy,test]"
@@ -5,14 +7,10 @@ install-dependencies:
 	chmod +x ./che-install.sh
 	./che-install.sh
 
-.PHONY: all
-all:
-	QUALIFIER="${QUALIFIER:=analytics}"
-
 bootstrap:
 	cdk bootstrap --qualifier ${QUALIFIER} --toolkit-stack-name ${QUALIFIER}
 
-synth: all
+synth:
 	cdk synth --qualifier ${QUALIFIER} --toolkit-stack-name ${QUALIFIER}
 
 deploy: deploy-cloud k8s deploy-nginx-ingresscontroller deploy-che
