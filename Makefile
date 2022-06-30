@@ -32,6 +32,7 @@ deploy-nginx-ingresscontroller:
 
 deploy-cloud:
 	export QUALIFIER=${QUALIFIER}; cdk deploy --qualifier ${QUALIFIER} --toolkit-stack-name ${QUALIFIER}
+	eksctl associate identityprovider -f eks/associate-identity-provider.yaml
 
 destroy:
 	export QUALIFIER=${QUALIFIER}; cdk destroy --qualifier ${QUALIFIER} --toolkit-stack-name ${QUALIFIER}
