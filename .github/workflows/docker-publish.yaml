@@ -5,6 +5,8 @@ on:
     # Publish `main` as Docker `latest` image.
     branches:
       - main
+  pull_request:
+    types: [ opened, synchronize ]
 env:
   IMAGE_NAME: image
 
