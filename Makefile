@@ -11,7 +11,7 @@ bootstrap:
 	export QUALIFIER=${QUALIFIER}; cdk bootstrap --qualifier ${QUALIFIER} --toolkit-stack-name ${QUALIFIER}
 
 synth:
-	export QUALIFIER=${QUALIFIER}; YYcdk synth --qualifier ${QUALIFIER} --toolkit-stack-name ${QUALIFIER}
+	export QUALIFIER=${QUALIFIER}; cdk synth --qualifier ${QUALIFIER} --toolkit-stack-name ${QUALIFIER}
 
 deploy: deploy-cloud k8s deploy-nginx-ingresscontroller deploy-che
 
