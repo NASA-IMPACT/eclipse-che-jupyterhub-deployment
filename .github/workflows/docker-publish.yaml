@@ -47,7 +47,7 @@ jobs:
         shell: bash
         run: |
           cd /opt
-          make install-che
+          make install-dependencies
       - name: Deploy cloud infra
         shell: bash
         run: |
