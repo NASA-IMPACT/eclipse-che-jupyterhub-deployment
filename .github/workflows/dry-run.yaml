@@ -1,0 +1,25 @@
+name: Build dry-run
+
+on:
+  pull_request:
+    types: [ opened, synchronize ]
+env:
+  IMAGE_NAME: image
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    container:
+      image: 'ghcr.io/developmentseed/nasa-analytics-environment-deploy:latest'
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Synthesize app
+        shell: bash
+        run: |
+          cd /opt
+          make synth
