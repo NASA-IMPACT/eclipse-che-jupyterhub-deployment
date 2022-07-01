@@ -1,11 +1,17 @@
 QUALIFIER ?= "analytics"
 
-install-dependencies:
-	npm install --location=global aws-cdk
-	python3 -m pip install -e ".[dev,deploy,test]"
+install-che:
 	curl -sL  https://www.eclipse.org/che/chectl/ > che-install.sh
 	chmod +x ./che-install.sh
 	./che-install.sh
+
+install-eksctl:
+	curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+	mv /tmp/eksctl /usr/local/bin
+
+install-dependencies: install-che install-eksctl
+	npm install --location=global aws-cdk
+	python3 -m pip install -e ".[dev,deploy,test]"
 
 bootstrap:
 	export QUALIFIER=${QUALIFIER}; cdk bootstrap --qualifier ${QUALIFIER} --toolkit-stack-name ${QUALIFIER}
