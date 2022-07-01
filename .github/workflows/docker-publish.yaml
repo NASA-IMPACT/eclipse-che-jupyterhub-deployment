@@ -43,7 +43,7 @@ jobs:
         run: |
           cd /opt
           make bootstrap
-      - name: Install chectl
+      - name: Install ctls
         shell: bash
         run: |
           cd /opt
