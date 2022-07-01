@@ -17,16 +17,21 @@ deploy: deploy-cloud k8s deploy-nginx-ingresscontroller deploy-che
 
 deploy-all: bootstrap install-che deploy
 
+#Ref: https://github.com/eclipse/che/issues/21160#issuecomment-1061972560
 deploy-che:
 	envsubst < operator-patch-envs.yaml > che-operator-cr-patch.yaml
 	chectl server:deploy --platform k8s --che-operator-cr-patch-yaml=operator-patch-envs.yaml --domain analytics.delta-backend.com --skip-oidc-provider-check --telemetry=off
 	scripts/setup-che.sh
+
+update-che:
+	chectl server:update --che-operator-cr-patch-yaml=che-operator-cr-patch.yaml --telemetry=off
 
 deploy-nginx-ingresscontroller:
 	kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.2.0/deploy/static/provider/cloud/deploy.yaml
 
 deploy-cloud:
 	export QUALIFIER=${QUALIFIER}; cdk deploy --qualifier ${QUALIFIER} --toolkit-stack-name ${QUALIFIER}
+	eksctl associate identityprovider -f eks/associate-identity-provider.yaml
 
 destroy:
 	export QUALIFIER=${QUALIFIER}; cdk destroy --qualifier ${QUALIFIER} --toolkit-stack-name ${QUALIFIER}

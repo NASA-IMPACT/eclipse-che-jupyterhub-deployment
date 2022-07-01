@@ -1,0 +1,14 @@
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: clusteranalyticsclusterAEC11659-c327a64989a14eed9d1d457484a1f574
+  region: us-west-2
+
+identityProviders:
+  - name: cognito-provider
+    type: oidc
+    issuerUrl: https://cognito-idp.us-west-2.amazonaws.com/us-west-2_OJVQQhBQQ
+    clientId: 6agdfjrpkio8gbhd2opo0ih38u
+    usernameClaim: email
