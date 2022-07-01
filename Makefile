@@ -1,13 +1,11 @@
 QUALIFIER ?= "analytics"
 
-install-che:
+install-dependencies:
+	npm install --location=global aws-cdk
+	python3 -m pip install -e ".[dev,deploy,test]"
 	curl -sL  https://www.eclipse.org/che/chectl/ > che-install.sh
 	chmod +x ./che-install.sh
 	./che-install.sh
-
-install-dependencies: install-che
-	npm install --location=global aws-cdk
-	python3 -m pip install -e ".[dev,deploy,test]"
 
 bootstrap:
 	export QUALIFIER=${QUALIFIER}; cdk bootstrap --qualifier ${QUALIFIER} --toolkit-stack-name ${QUALIFIER}
@@ -21,7 +19,8 @@ deploy-all: bootstrap install-che deploy
 
 #Ref: https://github.com/eclipse/che/issues/21160#issuecomment-1061972560
 deploy-che:
-	chectl server:deploy --platform k8s --che-operator-cr-patch-yaml=che-operator-cr-patch.yaml --domain analyticsveda.delta-backend.com --skip-oidc-provider-check --telemetry=off
+	envsubst < operator-patch-envs.yaml > che-operator-cr-patch.yaml
+	chectl server:deploy --platform k8s --che-operator-cr-patch-yaml=operator-patch-envs.yaml --domain analytics.delta-backend.com --skip-oidc-provider-check --telemetry=off
 	scripts/setup-che.sh
 
 update-che:

@@ -8,8 +8,8 @@ spec:
     externalIdentityProvider: true
     identityProviderURL: https://cognito-idp.us-west-2.amazonaws.com/us-west-2_OJVQQhBQQ
     openShiftoAuth: false
-    oAuthClientName: <SECRET>
-    oAuthSecret: <SECRET>
+    oAuthClientName: ${AUTH_CLIENT_NAME}
+    oAuthSecret: ${AUTH_SECRET}
   server:
     cheDebug: "true"
     customCheProperties:
