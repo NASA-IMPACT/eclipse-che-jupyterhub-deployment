@@ -2,7 +2,7 @@
 CLUSTER_NAME=$(aws eks list-clusters --query clusters --output text | grep analyticscluster)
 echo "Cluster name is $CLUSTER_NAME"
 IDP_COUNT=$(aws eks describe-cluster --name $CLUSTER_NAME --query "cluster.identity.oidc" --output text | wc -l)
-echo "Found $IDP_COUNT IDPs"
+echo "Found $IDP_COUNT IDP(s)"
 if [ $IDP_COUNT -eq 0 ]; then
   eksctl associate identityprovider -f eks/associate-identity-provider.yaml
 fi
