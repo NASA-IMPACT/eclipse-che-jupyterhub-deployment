@@ -6,7 +6,7 @@ metadata:
 spec:
   auth:
     externalIdentityProvider: true
-    identityProviderURL: https://cognito-idp.us-west-2.amazonaws.com/us-west-2_OJVQQhBQQ
+    identityProviderURL: ${IDP_URL}
     openShiftoAuth: false
     oAuthClientName: ${AUTH_CLIENT_NAME}
     oAuthSecret: ${AUTH_SECRET}
