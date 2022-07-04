@@ -1,4 +1,6 @@
 QUALIFIER ?= "analytics"
+IDP_URL ?= "https://cognito-idp.us-west-2.amazonaws.com/us-west-2_OJVQQhBQQ"
+IDP_USER_CLAIM ?= "email"
 
 install-che:
 	curl -sL  https://www.eclipse.org/che/chectl/ > che-install.sh
@@ -6,6 +8,7 @@ install-che:
 	./che-install.sh
 
 install-eksctl:
+	echo UN:$(uname -s) 
 	curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar -xz -C /tmp
 	mv /tmp/eksctl /usr/local/bin
 
