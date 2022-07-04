@@ -4,8 +4,6 @@ install-che:
 	curl -sL  https://www.eclipse.org/che/chectl/ > che-install.sh
 	chmod +x ./che-install.sh
 	./che-install.sh
-
-install-eksctl:
 	curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
 	mv /tmp/eksctl /usr/local/bin
 
@@ -37,7 +35,7 @@ deploy-nginx-ingresscontroller:
 
 deploy-cloud:
 	export QUALIFIER=${QUALIFIER}; cdk deploy --qualifier ${QUALIFIER} --toolkit-stack-name ${QUALIFIER}
-	scripts/setup-idp.sh
+	export IDP_URL=${IDP_URL}; export IDP_USER_CLAIM=${IDP_USER_CLAIM}; scripts/setup-idp.sh
 
 destroy:
 	export QUALIFIER=${QUALIFIER}; cdk destroy --qualifier ${QUALIFIER} --toolkit-stack-name ${QUALIFIER}

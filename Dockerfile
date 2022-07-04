@@ -3,6 +3,12 @@ ENV AWS_ACCESS_KEY_ID=""
 ENV AWS_SECRET_ACCESS_KEY=""
 ENV AWS_DEFAULT_REGION="us-west-2"
 
+# Setup APT
+RUN apt-get update -y
+
+# Envsubst
+RUN apt-get install -y gettext
+
 # AWS CLI
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 RUN unzip awscliv2.zip
@@ -10,7 +16,6 @@ RUN ./aws/install
 
 # CDK Stuff
 RUN npm install --location=global aws-cdk
-RUN apt-get update -y
 RUN apt-get install -y python3 python3-pip
 
 # Kubernetes Stuff
