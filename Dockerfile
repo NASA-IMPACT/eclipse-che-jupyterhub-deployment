@@ -1,4 +1,4 @@
-FROM node:18-bullseye
+FROM node:18-bullseye AS root
 ENV AWS_ACCESS_KEY_ID=""
 ENV AWS_SECRET_ACCESS_KEY=""
 ENV AWS_DEFAULT_REGION="us-west-2"
@@ -21,8 +21,13 @@ RUN apt-get update && apt-get install -y kubectl
 
 WORKDIR /opt
 
-COPY . .
+COPY setup.py .
+COPY README.md .
 
 RUN python3 -m pip install -e ".[dev,deploy,test]"
+
+FROM root
+
+COPY . .
 
 CMD '/opt/entrypoint.sh'
