@@ -23,6 +23,3 @@ jobs:
         run: |
           cd /opt
           make synth
-      - name: test
-        shell: bash
-        run: envsubst --version
