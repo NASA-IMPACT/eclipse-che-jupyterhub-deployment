@@ -1,5 +1,7 @@
 #!/bin/bash
 PLATFORM=$(uname -s)
+URL="https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_${PLATFORM}_amd64.tar.gz"
 echo Platform:${PLATFORM}
-curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_${PLATFORM}_amd64.tar.gz" | tar -xz -C /tmp
+echo "Download URL:${URL}"
+curl --silent --location "${URL}" | tar -xz -C /tmp
 mv /tmp/eksctl /usr/local/bin

@@ -6,17 +6,17 @@ ENV AWS_DEFAULT_REGION="us-west-2"
 # Setup APT
 RUN apt-get update -y
 
-# Envsubst
+# Core dependencies
 RUN apt-get install -y gettext
+RUN apt-get install -y python3 python3-pip
+
+# CDK stuff
+RUN npm install --location=global aws-cdk
 
 # AWS CLI
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 RUN unzip awscliv2.zip
 RUN ./aws/install
-
-# CDK Stuff
-RUN npm install --location=global aws-cdk
-RUN apt-get install -y python3 python3-pip
 
 # Kubernetes Stuff
 RUN apt-get install -y apt-transport-https ca-certificates curl
@@ -25,6 +25,12 @@ RUN echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] htt
 RUN apt-get update && apt-get install -y kubectl
 
 WORKDIR /opt
+
+# Other deps
+COPY Makefile .
+COPY scripts ./scripts
+RUN make install-che
+RUN make install-eksctl
 
 COPY setup.py .
 COPY README.md .
