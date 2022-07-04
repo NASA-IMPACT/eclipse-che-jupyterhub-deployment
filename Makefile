@@ -36,7 +36,7 @@ deploy-nginx-ingresscontroller:
 
 deploy-cloud:
 	export QUALIFIER=${QUALIFIER}; cdk deploy --qualifier ${QUALIFIER} --toolkit-stack-name ${QUALIFIER}
-	export IDP_URL=${IDP_URL}; export IDP_USER_CLAIM=${IDP_USER_CLAIM}; scripts/setup-idp.sh
+	scripts/setup-idp.sh
 
 destroy:
 	export QUALIFIER=${QUALIFIER}; cdk destroy --qualifier ${QUALIFIER} --toolkit-stack-name ${QUALIFIER}
