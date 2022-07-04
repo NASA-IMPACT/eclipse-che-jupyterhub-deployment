@@ -1,0 +1,14 @@
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: ${CLUSTER_NAME}
+  region: ${CLUSTER_REGION}
+
+identityProviders:
+  - name: cognito-provider
+    type: oidc
+    issuerUrl: ${IDP_URL}
+    clientId: ${AUTH_CLIENT_NAME}
+    usernameClaim: ${IDP_USER_CLAIM}

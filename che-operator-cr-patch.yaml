@@ -6,14 +6,14 @@ metadata:
 spec:
   auth:
     externalIdentityProvider: true
-    identityProviderURL: https://cognito-idp.us-west-2.amazonaws.com/us-west-2_OJVQQhBQQ
     openShiftoAuth: false
+    identityProviderURL: ${IDP_URL}
     oAuthClientName: ${AUTH_CLIENT_NAME}
     oAuthSecret: ${AUTH_SECRET}
   server:
     cheDebug: "true"
     customCheProperties:
-      CHE_OIDC_USERNAME__CLAIM: email
+      CHE_OIDC_USERNAME__CLAIM: ${IDP_USER_CLAIM}
     cheServerIngress:
       annotations:
         cert-manager.io/cluster-issuer: che-certificate-issuer
