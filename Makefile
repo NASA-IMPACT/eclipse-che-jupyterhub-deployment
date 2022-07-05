@@ -3,7 +3,7 @@ IDP_URL ?= "https://cognito-idp.us-west-2.amazonaws.com/us-west-2_OJVQQhBQQ"
 IDP_USER_CLAIM ?= "email"
 
 install-che:
-	./scripts/install-che.sh
+	./scripts/install-chectl.sh
 
 install-eksctl:
 	./scripts/install-eksctl.sh
