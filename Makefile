@@ -1,6 +1,7 @@
 QUALIFIER ?= "analytics"
 IDP_URL ?= "https://cognito-idp.us-west-2.amazonaws.com/us-west-2_OJVQQhBQQ"
 IDP_USER_CLAIM ?= "email"
+ROUTE53_HOSTED_ZONE ?= "Z005660034LMNOJCPIGWF"
 
 install-che:
 	curl -sL  https://www.eclipse.org/che/chectl/ > che-install.sh
@@ -32,6 +33,13 @@ deploy-che:
 
 update-che:
 	chectl server:update --che-operator-cr-patch-yaml=che-operator-cr-patch.yaml --telemetry=off
+
+set-dns-record:
+	# get the elb service url
+	# update aws route 53 dns record
+	export ROUTE53_HOSTED_ZONE=${ROUTE53_HOSTED_ZONE}
+	kubectl get service ingress-nginx-controller --namespace=ingress-nginx
+	aws route53 change-resource-record-sets --hosted-zone-id ${ROUTE53_HOSTED_ZONE} --change-batch scripts/route53-record.json
 
 deploy-nginx-ingresscontroller:
 	kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.2.0/deploy/static/provider/cloud/deploy.yaml
