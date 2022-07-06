@@ -1,5 +1,4 @@
 #!/bin/bash
-PLATFORM=$(uname -s)
-CHECTL_VERSION=7.49.0
-curl -sL "https://github.com/che-incubator/chectl/releases/download/${CHECTL_VERSION}/chectl-${PLATFORM}-x64.tar.gz" | tar -xz -C /tmp
-mv /tmp/chectl/bin/run /usr/local/bin
+curl -sL  https://www.eclipse.org/che/chectl/ > che-install.sh
+chmod +x ./che-install.sh
+./che-install.sh
