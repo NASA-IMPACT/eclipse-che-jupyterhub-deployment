@@ -34,7 +34,7 @@ RUN python3 -m pip install -e ".[dev,deploy,test]"
 # Other deps
 COPY Makefile .
 COPY scripts ./scripts
-RUN make install-che
+RUN make install-chectl
 RUN make install-eksctl
 
 FROM root

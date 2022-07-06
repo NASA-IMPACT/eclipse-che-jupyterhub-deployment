@@ -20,10 +20,10 @@ class AnalyticsStack(Stack):
 
 qualifier = os.getenv('QUALIFIER')
 
-analytics_stack = AnalyticsStack( app, "analytics-stack",synthesizer=DefaultStackSynthesizer(qualifier=qualifier))
+analytics_stack = AnalyticsStack(app, f"analytics-stack-{qualifier}", synthesizer=DefaultStackSynthesizer(qualifier=qualifier))
 
-cluster = ClusterConstruct(analytics_stack, "cluster")
-iam = IamConstruct(analytics_stack, "iam")
+cluster = ClusterConstruct(analytics_stack, "cluster", qualifier=qualifier)
+iam = IamConstruct(analytics_stack, "iam", qualifier=qualifier)
 
 for key, value in {
     "Project": "NASA Analytics",
