@@ -2,13 +2,13 @@ QUALIFIER ?= "analytics"
 IDP_URL ?= "https://cognito-idp.us-west-2.amazonaws.com/us-west-2_OJVQQhBQQ"
 IDP_USER_CLAIM ?= "email"
 
-install-che:
+install-chectl:
 	./scripts/install-chectl.sh
 
 install-eksctl:
 	./scripts/install-eksctl.sh
 
-install-dependencies: install-che install-eksctl
+install-dependencies: install-chectl install-eksctl
 	npm install --location=global aws-cdk
 	python3 -m pip install -e ".[dev,deploy,test]"
 
@@ -20,7 +20,7 @@ synth:
 
 deploy: deploy-cloud k8s deploy-nginx-ingresscontroller deploy-che
 
-deploy-all: bootstrap install-che deploy
+deploy-all: bootstrap install-chectl deploy
 
 #Ref: https://github.com/eclipse/che/issues/21160#issuecomment-1061972560
 deploy-che:

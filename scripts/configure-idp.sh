@@ -1,5 +1,5 @@
 #!/bin/sh
-CLUSTER_NAME=$(aws eks list-clusters --query clusters --output text | grep analyticscluster)
+CLUSTER_NAME=$(aws eks list-clusters --query clusters --output text | grep "${QUALIFIER}-analyticscluster")
 echo "Cluster name is $CLUSTER_NAME"
 IDP_COUNT=$(aws eks describe-cluster --name $CLUSTER_NAME --query "cluster.identity.oidc" --output text | wc -l)
 echo "Found $IDP_COUNT IDP(s)"

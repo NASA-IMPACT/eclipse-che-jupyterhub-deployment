@@ -29,7 +29,7 @@ WORKDIR /opt
 # Other deps
 COPY Makefile .
 COPY scripts ./scripts
-RUN make install-che
+RUN make install-chectl
 RUN make install-eksctl
 
 COPY setup.py .

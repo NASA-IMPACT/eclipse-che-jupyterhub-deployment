@@ -16,6 +16,7 @@ class ClusterConstruct(Construct):
             self,
             scope: Construct,
             construct_id: str,
+            qualifier: str,
             code_dir: str = "./",
             **kwargs,
     ) -> None:
@@ -31,11 +32,11 @@ class ClusterConstruct(Construct):
         )
 
         account_id = stack.account
-        role = aws_iam.Role(self, "analytics-cluster-role",
+        role = aws_iam.Role(self, f"analytics-cluster-role-{qualifier}",
                             assumed_by=aws_iam.AccountPrincipal(account_id),
                             description="Cluster admin role for analytics cluster")
 
-        cluster = aws_eks.Cluster(self, "analytics-cluster",
+        cluster = aws_eks.Cluster(self, f"analytics-cluster-{qualifier}",
                                   version=aws_eks.KubernetesVersion.V1_21,
                                   vpc=vpc,
                                   vpc_subnets=[
