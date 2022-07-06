@@ -83,4 +83,5 @@ jobs:
       - name: Deploy cloud infra
         run: |
           cd /opt
+          ls -lah /usr/local/bin
           make deploy-che
