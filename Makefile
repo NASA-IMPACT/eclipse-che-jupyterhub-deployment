@@ -26,7 +26,7 @@ deploy-all: bootstrap install-che deploy
 deploy-che:
 	envsubst < che-operator-cr-patch.yaml > operator-patch-envs.yaml
 	chectl server:deploy --platform k8s --che-operator-cr-patch-yaml=operator-patch-envs.yaml --domain analytics.delta-backend.com --skip-oidc-provider-check --telemetry=off
-	scripts/install-che.sh
+	scripts/configure-che.sh
 
 update-che:
 	chectl server:update --che-operator-cr-patch-yaml=che-operator-cr-patch.yaml --telemetry=off
