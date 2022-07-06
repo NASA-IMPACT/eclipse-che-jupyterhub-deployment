@@ -39,6 +39,8 @@ deploy-cloud:
 	export IDP_URL=${IDP_URL}; export IDP_USER_CLAIM=${IDP_USER_CLAIM}; scripts/configure-idp.sh
 
 destroy:
+	kubectl get services --namespace=cert-manager -o yaml > delete-namespace.yaml
+	kubectl delete -f delete-namespace.yaml
 	export QUALIFIER=${QUALIFIER}; cdk destroy --qualifier ${QUALIFIER} --toolkit-stack-name ${QUALIFIER}
 
 k8s:
