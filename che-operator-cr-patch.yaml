@@ -13,6 +13,5 @@ spec:
       oAuthSecret: ${AUTH_SECRET}
   components:
     cheServer:
-      debug: "true"
       extraProperties:
         CHE_OIDC_USERNAME__CLAIM: ${IDP_USER_CLAIM}
