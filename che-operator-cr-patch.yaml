@@ -1,19 +1,18 @@
 ---
-apiVersion: org.eclipse.che/v1
+apiVersion: org.eclipse.che/v2
 kind: CheCluster
 metadata:
   name: eclipse-che
 spec:
-  auth:
-    externalIdentityProvider: true
-    openShiftoAuth: false
-    identityProviderURL: ${IDP_URL}
-    oAuthClientName: ${AUTH_CLIENT_NAME}
-    oAuthSecret: ${AUTH_SECRET}
-  server:
-    cheDebug: "true"
-    customCheProperties:
-      CHE_OIDC_USERNAME__CLAIM: ${IDP_USER_CLAIM}
-    cheServerIngress:
-      annotations:
-        cert-manager.io/cluster-issuer: che-certificate-issuer
+  networking:
+    annotations:
+      cert-manager.io/cluster-issuer: che-certificate-issuer
+    auth:
+      identityProviderURL: ${IDP_URL}
+      oAuthClientName: ${AUTH_CLIENT_NAME}
+      oAuthSecret: ${AUTH_SECRET}
+  components:
+    cheServer:
+      debug: "true"
+      extraProperties:
+        CHE_OIDC_USERNAME__CLAIM: ${IDP_USER_CLAIM}
