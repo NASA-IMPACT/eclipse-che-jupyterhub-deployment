@@ -15,7 +15,7 @@ RUN npm install --location=global aws-cdk
 
 # AWS CLI
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-RUN unzip awscliv2.zip
+RUN unzip -qq awscliv2.zip
 RUN ./aws/install
 
 # Kubernetes Stuff
@@ -26,16 +26,16 @@ RUN apt-get update && apt-get install -y kubectl
 
 WORKDIR /opt
 
-# Other deps
-COPY Makefile .
-COPY scripts ./scripts
-RUN make install-che
-RUN make install-eksctl
-
 COPY setup.py .
 COPY README.md .
 
 RUN python3 -m pip install -e ".[dev,deploy,test]"
+
+# Other deps
+COPY Makefile .
+COPY scripts ./scripts
+RUN make install-chectl
+RUN make install-eksctl
 
 FROM root
 

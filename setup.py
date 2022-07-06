@@ -28,7 +28,7 @@ setup(
     keywords="",
     author="Development Seed",
     author_email="info@developmentseed.org",
-    url="https://github.com/developmentseed/nasa-analytics-environment-deploy",
+    url="https://github.com/NASA-IMPACT/nasa-analytics-environment-deploy",
     license="MIT",
     packages=find_packages(exclude=["ez_setup", "examples", "tests"]),
     package_data={"nasa-analytics-environment-deploy": ["templates/*.html", "templates/*.xml"]},

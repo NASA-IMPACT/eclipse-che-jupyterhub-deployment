@@ -1,18 +1,19 @@
 #!/bin/bash
 
-SECRET=$(aws secretsmanager get-secret-value --secret-id analytics-certmanager-accesskey-secret --query SecretString --output text)
-KEY_ID=$(aws secretsmanager get-secret-value --secret-id analytics-certmanager-accesskeyid --query SecretString --output text)
+SECRET=$(aws secretsmanager get-secret-value --secret-id "certmanager-accesskey-secret-${QUALIFIER}" --query SecretString --output text)
+KEY_ID=$(aws secretsmanager get-secret-value --secret-id "certmanager-accesskeyid-${QUALIFIER}" --query SecretString --output text)
 
 envsubst < eks/secrets.yaml > eks/secrets-substs.yaml
 kubectl apply -f eks/secrets-substs.yaml
 
 WORKDIR=$(dirname -- "$0")
-aws iam put-user-policy --user-name analytics-certmanager-user --policy-name certmanager-route53-policy --policy-document file://$WORKDIR/certmanager-policy.json
+aws iam put-user-policy --user-name "certmanager-user-${QUALIFIER}" --policy-name certmanager-route53-policy --policy-document file://$WORKDIR/certmanager-policy.json
 
 echo "KEY ID IS $KEY_ID"
 
 cat <<EOF | kubectl apply -f -
-apiVersion: cert-manager.io/v1alpha2
+---
+apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: che-certificate-issuer
