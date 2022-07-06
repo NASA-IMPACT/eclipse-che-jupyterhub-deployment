@@ -9,7 +9,7 @@
         "TTL": 300,
         "ResourceRecords": [
           {
-            "Value": "${ROUTE53-RESOURCE-VALUE}"
+            "Value": "${ELB_HOSTNAME}"
           }
         ]
       }

@@ -36,10 +36,11 @@ update-che:
 
 set-dns-record:
 	# get the elb service url
+	export ELB_HOSTNAME=$(kubectl get service ingress-nginx-controller --namespace=ingress-nginx -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
 	# update aws route 53 dns record
 	export ROUTE53_HOSTED_ZONE=${ROUTE53_HOSTED_ZONE}
-	kubectl get service ingress-nginx-controller --namespace=ingress-nginx
-	aws route53 change-resource-record-sets --hosted-zone-id ${ROUTE53_HOSTED_ZONE} --change-batch scripts/route53-record.json
+	envsubst < scripts/route53-record.json > scripts/route53-record-subst.json
+	aws route53 change-resource-record-sets --hosted-zone-id ${ROUTE53_HOSTED_ZONE} --change-batch scripts/route53-record-subst.json
 
 deploy-nginx-ingresscontroller:
 	kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.2.0/deploy/static/provider/cloud/deploy.yaml
