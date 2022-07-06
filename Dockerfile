@@ -26,16 +26,16 @@ RUN apt-get update && apt-get install -y kubectl
 
 WORKDIR /opt
 
+COPY setup.py .
+COPY README.md .
+
+RUN python3 -m pip install -e ".[dev,deploy,test]"
+
 # Other deps
 COPY Makefile .
 COPY scripts ./scripts
 RUN make install-che
 RUN make install-eksctl
-
-COPY setup.py .
-COPY README.md .
-
-RUN python3 -m pip install -e ".[dev,deploy,test]"
 
 FROM root
 
