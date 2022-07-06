@@ -12,7 +12,8 @@ aws iam put-user-policy --user-name "certmanager-user-${QUALIFIER}" --policy-nam
 echo "KEY ID IS $KEY_ID"
 
 cat <<EOF | kubectl apply -f -
-apiVersion: cert-manager.io/v1alpha2
+---
+apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: che-certificate-issuer
