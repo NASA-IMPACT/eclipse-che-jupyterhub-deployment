@@ -25,19 +25,19 @@ class IamConstruct(Construct):
         # TODO config
         stack = Stack.of(self)
 
-        user = aws_iam.User(self, f"{qualifier}-certmanager-user",
-                            user_name=f"{qualifier}-certmanager-user")
+        user = aws_iam.User(self, f"certmanager-user-{qualifier}",
+                            user_name=f"certmanager-user-{qualifier}")
 
-        access_key = aws_iam.AccessKey(self, f"{qualifier}-certmanager-accesskey",
+        access_key = aws_iam.AccessKey(self, f"certmanager-accesskey-{qualifier}",
                                        user=user)
 
         secret_id_value = aws_secretsmanager.SecretStringValueBeta1.from_token(access_key.access_key_id)
-        secret_id = aws_secretsmanager.Secret(self, f"{qualifier}-certmanager-accesskeyid",
-                                              secret_name=f"{qualifier}-certmanager-accesskeyid",
+        secret_id = aws_secretsmanager.Secret(self, f"certmanager-accesskeyid-{qualifier}",
+                                              secret_name=f"certmanager-accesskeyid-{qualifier}",
                                               secret_string_beta1=secret_id_value)
 
         secret_value = aws_secretsmanager.SecretStringValueBeta1.from_token(access_key.secret_access_key.to_string())
-        secret = aws_secretsmanager.Secret(self, f"{qualifier}-certmanager-accesskey-secret",
-                                           secret_name=f"{qualifier}-certmanager-accesskey-secret",
+        secret = aws_secretsmanager.Secret(self, f"certmanager-accesskey-secret-{qualifier}",
+                                           secret_name=f"certmanager-accesskey-secret-{qualifier}",
                                            secret_string_beta1=secret_value
                                            )
