@@ -19,24 +19,24 @@ bootstrap:
 synth:
 	export QUALIFIER=${QUALIFIER}; cdk synth --qualifier ${QUALIFIER} --toolkit-stack-name ${QUALIFIER}
 
-deploy: deploy-cloud k8s deploy-nginx-ingresscontroller deploy-che
+deploy: deploy-cloud k8s deploy-nginx-ingresscontroller set-dns-record deploy-che
 
 deploy-all: bootstrap install-chectl deploy
 
 #Ref: https://github.com/eclipse/che/issues/21160#issuecomment-1061972560
 deploy-che:
 	envsubst < che-operator-cr-patch.yaml > operator-patch-envs.yaml
-	chectl server:deploy --platform k8s --che-operator-cr-patch-yaml=operator-patch-envs.yaml --domain analytics.delta-backend.com --skip-oidc-provider-check --telemetry=off
+	chectl server:deploy --platform k8s --che-operator-cr-patch-yaml=operator-patch-envs.yaml --domain "${QUALIFIER}-analytics.delta-backend.com" --skip-oidc-provider-check --telemetry=off
 	scripts/configure-che.sh
 
 update-che:
 	chectl server:update --che-operator-cr-patch-yaml=che-operator-cr-patch.yaml --telemetry=off
 
 set-dns-record:
-	# get the elb service url
 	export ELB_HOSTNAME=$(kubectl get service ingress-nginx-controller --namespace=ingress-nginx -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-	# update aws route 53 dns record
 	export ROUTE53_HOSTED_ZONE=${ROUTE53_HOSTED_ZONE}
+	export ROUTE53-ACTION="CREATE"
+	export QUALIFIER=${QUALIFIER}
 	envsubst < scripts/route53-record.json > scripts/route53-record-subst.json
 	aws route53 change-resource-record-sets --hosted-zone-id ${ROUTE53_HOSTED_ZONE} --change-batch scripts/route53-record-subst.json
 
