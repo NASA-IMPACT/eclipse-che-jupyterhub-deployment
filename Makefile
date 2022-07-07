@@ -18,9 +18,9 @@ bootstrap:
 synth:
 	export QUALIFIER=${QUALIFIER}; cdk synth --qualifier ${QUALIFIER} --toolkit-stack-name ${QUALIFIER}
 
-deploy: deploy-cloud k8s configure-idp deploy-nginx-ingresscontroller set-dns-record deploy-che
+deploy: deploy-cloud configure-idp deploy-nginx-ingresscontroller set-dns-record deploy-che
 
-deploy-all: bootstrap install-chectl deploy
+bootstrap-and-deploy: bootstrap deploy
 
 configure-idp: k8s
 	export IDP_USER_CLAIM=${IDP_USER_CLAIM}; export IDP_URL=${IDP_URL}; scripts/configure-idp.sh
