@@ -35,7 +35,7 @@ update-che: patch-che
 deploy-nginx-ingresscontroller: k8s
 	kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.2.0/deploy/static/provider/cloud/deploy.yaml
 
-deploy-cloud: k8s
+deploy-cloud:
 	export IDP_URL=${IDP_URL}; export IDP_USER_CLAIM=${IDP_USER_CLAIM}; export QUALIFIER=${QUALIFIER}; scripts/deploy.sh
 
 destroy: k8s
