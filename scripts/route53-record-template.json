@@ -2,7 +2,7 @@
   "Comment": "Upsert route 53 record pointing to the VEDA Analytics ELB",
   "Changes": [
     {
-      "Action": "${ROUTE53-ACTION}",
+      "Action": "${ROUTE53_ACTION}",
       "ResourceRecordSet": {
         "Name": "${QUALIFIER}-analytics.delta-backend.com",
         "Type": "CNAME",

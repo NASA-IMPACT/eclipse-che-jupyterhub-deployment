@@ -1,7 +1,6 @@
 QUALIFIER ?= "analytics"
 IDP_URL ?= "https://cognito-idp.us-west-2.amazonaws.com/us-west-2_OJVQQhBQQ"
 IDP_USER_CLAIM ?= "email"
-ROUTE53_HOSTED_ZONE ?= "Z005660034LMNOJCPIGWF"
 
 install-chectl:
 	./scripts/install-chectl.sh
@@ -25,15 +24,15 @@ deploy-all: bootstrap install-chectl deploy
 
 #Ref: https://github.com/eclipse/che/issues/21160#issuecomment-1061972560
 deploy-che:
-	envsubst < che-operator-cr-patch.yaml > operator-patch-envs.yaml
-	chectl server:deploy --platform k8s --che-operator-cr-patch-yaml=operator-patch-envs.yaml --domain "${QUALIFIER}-analytics.delta-backend.com" --skip-oidc-provider-check --telemetry=off
+	envsubst < che-operator-cr-template.yaml > operator-patch.yaml
+	chectl server:deploy --platform k8s --che-operator-cr-patch-yaml=operator-patch.yaml --domain "${QUALIFIER}-analytics.delta-backend.com" --skip-oidc-provider-check --telemetry=off
 	scripts/configure-che.sh
 
 update-che:
-	chectl server:update --che-operator-cr-patch-yaml=che-operator-cr-patch.yaml --telemetry=off
+	chectl server:update --che-operator-cr-patch-yaml=operator-patch.yaml --telemetry=off
 
 set-dns-record:
-	scripts/set-dns-record.sh
+	export ROUTE53_ACTION="UPSERT"; scripts/set-dns-record.sh
 
 deploy-nginx-ingresscontroller:
 	kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.2.0/deploy/static/provider/cloud/deploy.yaml
@@ -45,6 +44,7 @@ deploy-cloud:
 destroy:
 	export QUALIFIER=${QUALIFIER}; make k8s
 	export QUALIFIER=${QUALIFIER}; scripts/remove-cert-manager-policy.sh
+	export ROUTE53_ACTION="DELETE"; scripts/set-dns-record.sh
 	kubectl get services -n ingress-nginx -o yaml > delete-namespace.yaml
 	kubectl delete -f delete-namespace.yaml
 	export QUALIFIER=${QUALIFIER}; cdk destroy --qualifier ${QUALIFIER} --toolkit-stack-name ${QUALIFIER}
