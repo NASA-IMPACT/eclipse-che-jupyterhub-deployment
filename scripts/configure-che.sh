@@ -8,7 +8,7 @@ envsubst < eks/aws-cert-manager-access-key.secret.yaml > eks/secrets-substs.yaml
 kubectl apply -f eks/secrets-substs.yaml
 
 WORKDIR=$(dirname -- "$0")
-aws iam put-user-policy --user-name "certmanager-user-${QUALIFIER}" --policy-name certmanager-route53-policy --policy-document file://$WORKDIR/certmanager-policy.json
+aws iam put-user-policy --user-name "certmanager-user-${QUALIFIER}" --policy-name certmanager-route53-policy --policy-document file://$WORKDIR/templates/certmanager-policy.json
 
 echo "KEY ID IS $CERTMANAGER_KEY_ID"
 
