@@ -46,3 +46,4 @@ k8s:
 
 set-dns-record:
 	export ROUTE53_ACTION="UPSERT"; scripts/set-dns-record.sh
+	
