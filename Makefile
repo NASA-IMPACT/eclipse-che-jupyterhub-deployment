@@ -43,3 +43,6 @@ destroy: k8s
 
 k8s:
 	export QUALIFIER=${QUALIFIER}; scripts/connect-k8s.sh
+
+set-dns-record:
+	export ROUTE53_ACTION="UPSERT"; scripts/set-dns-record.sh
