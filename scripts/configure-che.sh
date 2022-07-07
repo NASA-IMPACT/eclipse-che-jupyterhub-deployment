@@ -4,8 +4,8 @@ chectl server:deploy --platform k8s --che-operator-cr-patch-yaml=operator-patch.
 export CERTMANAGER_KEY_ID=$(aws secretsmanager get-secret-value --secret-id "certmanager-accesskeyid-${QUALIFIER}" --query SecretString --output text)
 export CERTMANAGER_SECRET=$(aws secretsmanager get-secret-value --secret-id "certmanager-accesskey-secret-${QUALIFIER}" --query SecretString --output text)
 
-envsubst < eks/aws-cert-manager-access-key.secret.yaml > eks/secrets-substs.yaml
-kubectl apply -f eks/secrets-substs.yaml
+envsubst < scripts/templates/aws-cert-manager-access-key.secret.yaml > secrets-substs.yaml
+kubectl apply -f secrets-substs.yaml
 
 WORKDIR=$(dirname -- "$0")
 aws iam put-user-policy --user-name "certmanager-user-${QUALIFIER}" --policy-name certmanager-route53-policy --policy-document file://$WORKDIR/templates/certmanager-policy.json
