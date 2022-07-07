@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 if [ command -v chectl &> /dev/null ]; then
     echo "Chectl already installed"
     exit

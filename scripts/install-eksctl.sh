@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 if [ command -v eksctl &> /dev/null ]; then
     echo "Eksctl already installed"
     exit

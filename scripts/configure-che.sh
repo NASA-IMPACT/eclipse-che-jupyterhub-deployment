@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 chectl server:deploy --platform k8s --che-operator-cr-patch-yaml=operator-patch.yaml --domain "${QUALIFIER}-analytics.delta-backend.com" --skip-oidc-provider-check --telemetry=off
 
 SECRET=$(aws secretsmanager get-secret-value --secret-id "certmanager-accesskey-secret-${QUALIFIER}" --query SecretString --output text)
