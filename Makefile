@@ -33,12 +33,7 @@ update-che:
 	chectl server:update --che-operator-cr-patch-yaml=che-operator-cr-patch.yaml --telemetry=off
 
 set-dns-record:
-	export ELB_HOSTNAME=$(kubectl get service ingress-nginx-controller --namespace=ingress-nginx -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-	export ROUTE53_HOSTED_ZONE=${ROUTE53_HOSTED_ZONE}
-	export ROUTE53-ACTION="CREATE"
-	export QUALIFIER=${QUALIFIER}
-	envsubst < scripts/route53-record.json > scripts/route53-record-subst.json
-	aws route53 change-resource-record-sets --hosted-zone-id ${ROUTE53_HOSTED_ZONE} --change-batch scripts/route53-record-subst.json
+	scripts/set-dns-record.sh
 
 deploy-nginx-ingresscontroller:
 	kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.2.0/deploy/static/provider/cloud/deploy.yaml
