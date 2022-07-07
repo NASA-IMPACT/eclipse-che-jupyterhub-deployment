@@ -32,10 +32,14 @@ COPY README.md .
 RUN python3 -m pip install -e ".[dev,deploy,test]"
 
 # Other deps
+COPY scripts/install-chectl.sh ./scripts/
+COPY scripts/install-eksctl.sh ./scripts/
+RUN scripts/install-chectl.sh
+RUN scripts/install-eksctl.sh
+
+#Scripts
 COPY Makefile .
 COPY scripts ./scripts
-RUN make install-chectl
-RUN make install-eksctl
 
 FROM root
 
