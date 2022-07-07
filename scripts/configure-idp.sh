@@ -1,7 +1,7 @@
 #!/bin/sh
-CLUSTER_NAME=$(aws eks list-clusters --query "clusters[?contains(@, '$QUALIFIER')]" --output text)
+CLUSTER_NAME=$(aws eks list-clusters --query "clusters[?contains(@, 'clusteranalyticscluster$QUALIFIER')]" --output text)
 echo "Cluster name is $CLUSTER_NAME"
-IDP_COUNT=$(aws eks describe-cluster --name $CLUSTER_NAME --query "cluster.identity.oidc" --output text | wc -l)
+IDP_COUNT="$(($(eksctl get identityprovider --cluster $CLUSTER_NAME --name cognito-provider | wc -l)-1))"
 echo "Found $IDP_COUNT IDP(s)"
 export CLUSTER_NAME=${CLUSTER_NAME}
 export CLUSTER_REGION="us-west-2"
