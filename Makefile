@@ -26,13 +26,13 @@ configure-idp:
 	scripts/configure-idp.sh
 
 patch-che:
-	export IDP_USER_CLAIM=${IDP_USER_CLAIM}; export IDP_URL=${IDP_URL}; envsubst < che-operator-cr-template.yaml > operator-patch.yaml
+	export IDP_USER_CLAIM=${IDP_USER_CLAIM}; export IDP_URL=${IDP_URL}; envsubst < scripts/templates/che-operator-cr-template.yaml > operator-patch.yaml
 
 deploy-che: k8s patch-che
 	export QUALIFIER=${QUALIFIER}; scripts/configure-che.sh
 
 update-che: k8s patch-che
-	export IDP_USER_CLAIM=${IDP_USER_CLAIM}; export IDP_URL=${IDP_URL}; envsubst < che-operator-cr-template.yaml > operator-patch.yaml
+	export IDP_USER_CLAIM=${IDP_USER_CLAIM}; export IDP_URL=${IDP_URL}; envsubst < scripts/templates/che-operator-cr-template.yaml > operator-patch.yaml
 	chectl server:update --che-operator-cr-patch-yaml=operator-patch.yaml --telemetry=off
 
 deploy-nginx-ingresscontroller: k8s
