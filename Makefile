@@ -22,8 +22,8 @@ deploy: deploy-cloud k8s configure-idp deploy-nginx-ingresscontroller set-dns-re
 
 deploy-all: bootstrap install-chectl deploy
 
-configure-idp:
-	scripts/configure-idp.sh
+configure-idp: k8s
+	export IDP_USER_CLAIM=${IDP_USER_CLAIM}; export IDP_URL=${IDP_URL}; scripts/configure-idp.sh
 
 patch-che:
 	export IDP_USER_CLAIM=${IDP_USER_CLAIM}; export IDP_URL=${IDP_URL}; envsubst < scripts/templates/che-operator-cr-template.yaml > operator-patch.yaml
