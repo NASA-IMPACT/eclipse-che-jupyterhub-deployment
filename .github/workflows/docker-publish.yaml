@@ -80,6 +80,10 @@ jobs:
         run: |
           cd /opt
           make deploy-nginx-ingresscontroller
+      - name: Setup Route53 DNS
+        run: |
+          cd /opt
+          make set-dns-record
       - name: Deploy cloud infra
         run: |
           cd /opt
