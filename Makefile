@@ -18,7 +18,10 @@ bootstrap:
 synth:
 	export QUALIFIER=${QUALIFIER}; cdk synth --qualifier ${QUALIFIER} --toolkit-stack-name ${QUALIFIER}
 
-deploy: deploy-cloud k8s deploy-nginx-ingresscontroller deploy-che
+k8s:
+	export QUALIFIER=${QUALIFIER}; scripts/connect-k8s.sh
+
+deploy: deploy-cloud deploy-nginx-ingresscontroller deploy-che
 
 deploy-all: bootstrap install-chectl deploy
 
@@ -29,16 +32,14 @@ deploy-che: patch-che
 	export QUALIFIER=${QUALIFIER}; scripts/configure-che.sh
 
 update-che: patch-che
+	export IDP_USER_CLAIM=${IDP_USER_CLAIM}; export IDP_URL=${IDP_URL}; envsubst < che-operator-cr-patch.yaml > operator-patch-envs.yaml
 	chectl server:update --che-operator-cr-patch-yaml=operator-patch-envs.yaml --telemetry=off
 
-deploy-nginx-ingresscontroller:
+deploy-nginx-ingresscontroller: k8s
 	kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.2.0/deploy/static/provider/cloud/deploy.yaml
 
-deploy-cloud:
+deploy-cloud: k8s
 	export IDP_URL=${IDP_URL}; export IDP_USER_CLAIM=${IDP_USER_CLAIM}; export QUALIFIER=${QUALIFIER}; scripts/deploy.sh
 
 destroy: k8s
 	export QUALIFIER=${QUALIFIER}; scripts/destroy.sh
-
-k8s:
-	export QUALIFIER=${QUALIFIER}; scripts/connect-k8s.sh
