@@ -24,7 +24,7 @@ deploy-all: bootstrap install-chectl deploy
 
 #Ref: https://github.com/eclipse/che/issues/21160#issuecomment-1061972560
 deploy-che:
-	envsubst < che-operator-cr-patch.yaml > operator-patch-envs.yaml
+	export IDP_USER_CLAIM=${IDP_USER_CLAIM}; export IDP_URL=${IDP_URL}; envsubst < che-operator-cr-patch.yaml > operator-patch-envs.yaml
 	chectl server:deploy --platform k8s --che-operator-cr-patch-yaml=operator-patch-envs.yaml --domain analytics.delta-backend.com --skip-oidc-provider-check --telemetry=off
 	scripts/configure-che.sh
 
