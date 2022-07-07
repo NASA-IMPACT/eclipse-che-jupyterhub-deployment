@@ -49,6 +49,7 @@ deploy-cloud:
 
 destroy:
 	export QUALIFIER=${QUALIFIER}; make k8s
+	export QUALIFIER=${QUALIFIER}; scripts/remove-cert-manager-policy.sh
 	kubectl get services -n ingress-nginx -o yaml > delete-namespace.yaml
 	kubectl delete -f delete-namespace.yaml
 	export QUALIFIER=${QUALIFIER}; cdk destroy --qualifier ${QUALIFIER} --toolkit-stack-name ${QUALIFIER}
