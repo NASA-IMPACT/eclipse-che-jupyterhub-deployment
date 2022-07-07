@@ -7,6 +7,7 @@ spec:
   networking:
     annotations:
       cert-manager.io/cluster-issuer: che-certificate-issuer
+      kubernetes.io/ingress.class: "nginx"
     auth:
       identityProviderURL: ${IDP_URL}
       oAuthClientName: ${AUTH_CLIENT_NAME}
