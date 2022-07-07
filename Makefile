@@ -28,10 +28,10 @@ configure-idp:
 patch-che:
 	export IDP_USER_CLAIM=${IDP_USER_CLAIM}; export IDP_URL=${IDP_URL}; envsubst < che-operator-cr-template.yaml > operator-patch.yaml
 
-deploy-che: patch-che
+deploy-che: k8s patch-che
 	export QUALIFIER=${QUALIFIER}; scripts/configure-che.sh
 
-update-che: patch-che
+update-che: k8s patch-che
 	export IDP_USER_CLAIM=${IDP_USER_CLAIM}; export IDP_URL=${IDP_URL}; envsubst < che-operator-cr-template.yaml > operator-patch.yaml
 	chectl server:update --che-operator-cr-patch-yaml=operator-patch.yaml --telemetry=off
 
