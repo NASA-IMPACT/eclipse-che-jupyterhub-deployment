@@ -1,0 +1,31 @@
+
+# VEDA Analytics
+
+### Deploying the infrastructure
+
+#### 1. Building the image
+
+This step is *optional* and useful only if you are developing locally and need to test your deployment. If you are just trying to deploy a new cluster without having made any changes locally, you can skip this step.
+
+`docker build . -t veda`
+
+**NOTE**:  if you are on an M1 Mac, you have to include the `--platform=linux/amd64` tag to your docker commands to avoid compatibility issues.
+
+#### 2. Running the image
+
+After building the image, it's time to run it to deploy the infrastructure. There are 4 important environment variables that need to be passed to the container. See _Creating a new cognito app client_ to find your cognito app client's secret and client name.
+
+```docker run -e AWS_ACCESS_KEY_ID="" -e AWS_SECRET_ACCESS_KEY="" -e AUTH_CLIENT_NAME="" -e AUTH_SECRET="" -e QUALIFIER="" -it veda:latest sh```
+
+### Creating a new cognito app client
+
+If you are deploying a new cluster with a unique/new `QUALIFIER`, you must create a new cognito app client as well to integrate the correct callback URL for auth.
+
+To do so, head to [Cognito's create app client page](https://us-west-2.console.aws.amazon.com/cognito/v2/idp/user-pools/us-west-2_OJVQQhBQQ/app-integration/create/client?region=us-west-2) and match (except for the client name) the screenshots below
+![client info](images/docs/clientinfo.png)
+![hosted ui info](images/docs/hostedui.png)
+
+You can then copy the app's client name and secret and add them to the docker run's environment variable.
+
+**NOTE**: The callback URL should match this syntax `https://{QUALIFIER}-analytics.delta-backend.com/oauth/callback`
+`
