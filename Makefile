@@ -18,18 +18,21 @@ bootstrap:
 synth:
 	export QUALIFIER=${QUALIFIER}; cdk synth --qualifier ${QUALIFIER} --toolkit-stack-name ${QUALIFIER}
 
-deploy: deploy-cloud k8s deploy-nginx-ingresscontroller set-dns-record deploy-che
+deploy: deploy-cloud configure-idp deploy-nginx-ingresscontroller set-dns-record deploy-che
 
-deploy-all: bootstrap install-chectl deploy
+bootstrap-and-deploy: bootstrap deploy
+
+configure-idp: k8s
+	export IDP_USER_CLAIM=${IDP_USER_CLAIM}; export IDP_URL=${IDP_URL}; scripts/configure-idp.sh
 
 patch-che:
-	export IDP_USER_CLAIM=${IDP_USER_CLAIM}; export IDP_URL=${IDP_URL}; envsubst < che-operator-cr-template.yaml > operator-patch.yaml
+	export IDP_USER_CLAIM=${IDP_USER_CLAIM}; export IDP_URL=${IDP_URL}; envsubst < scripts/templates/che-operator-cr-template.yaml > operator-patch.yaml
 
-deploy-che: patch-che
+deploy-che: k8s patch-che
 	export QUALIFIER=${QUALIFIER}; scripts/configure-che.sh
 
-update-che: patch-che
-	export IDP_USER_CLAIM=${IDP_USER_CLAIM}; export IDP_URL=${IDP_URL}; envsubst < che-operator-cr-template.yaml > operator-patch.yaml
+update-che: k8s patch-che
+	export IDP_USER_CLAIM=${IDP_USER_CLAIM}; export IDP_URL=${IDP_URL}; envsubst < scripts/templates/che-operator-cr-template.yaml > operator-patch.yaml
 	chectl server:update --che-operator-cr-patch-yaml=operator-patch.yaml --telemetry=off
 
 deploy-nginx-ingresscontroller: k8s
