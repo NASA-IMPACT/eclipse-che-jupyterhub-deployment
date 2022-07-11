@@ -18,7 +18,7 @@ bootstrap:
 synth:
 	export QUALIFIER=${QUALIFIER}; cdk synth --qualifier ${QUALIFIER} --toolkit-stack-name ${QUALIFIER}
 
-deploy: deploy-cloud configure-idp deploy-nginx-ingresscontroller set-dns-record deploy-che
+deploy: deploy-cloud configure-idp deploy-nginx-ingresscontroller set-dns-record deploy-che deploy-storage
 
 bootstrap-and-deploy: bootstrap deploy
 
@@ -30,6 +30,9 @@ patch-che:
 
 deploy-che: k8s patch-che
 	export QUALIFIER=${QUALIFIER}; scripts/configure-che.sh
+
+deploy-storage:
+	export QUALIFIER=${QUALIFIER}; scripts/configure-storage.sh
 
 update-che: k8s patch-che
 	export IDP_USER_CLAIM=${IDP_USER_CLAIM}; export IDP_URL=${IDP_URL}; envsubst < scripts/templates/che-operator-cr-template.yaml > operator-patch.yaml
