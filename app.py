@@ -6,8 +6,17 @@ from aws_cdk import App, Stack, Tags, DefaultStackSynthesizer
 from constructs import Construct
 from cdk.cluster.construct import ClusterConstruct
 from cdk.iam.construct import IamConstruct
+from config import Settings
 
+config = Settings(_env_file=os.environ.get("ENV_FILE", ".env"))
 app = App()
+
+cdk_tags = {
+    "Project": config.project_tag,
+    "Stack": config.stack_tag,
+    "Client": config.client_tag,
+    "Owner": config.owner_tag,
+}
 
 
 class AnalyticsStack(Stack):
@@ -18,19 +27,16 @@ class AnalyticsStack(Stack):
         super().__init__(scope, construct_id, **kwargs)
 
 
-qualifier = os.getenv('QUALIFIER')
+analytics_stack = AnalyticsStack(
+    app,
+    f"analytics-stack-{config.qualifier}",
+    synthesizer=DefaultStackSynthesizer(qualifier=config.qualifier)
+)
 
-analytics_stack = AnalyticsStack(app, f"analytics-stack-{qualifier}", synthesizer=DefaultStackSynthesizer(qualifier=qualifier))
+cluster = ClusterConstruct(analytics_stack, "cluster", qualifier=config.qualifier, cdk_tags=cdk_tags)
+iam = IamConstruct(analytics_stack, "iam", qualifier=config.qualifier)
 
-cluster = ClusterConstruct(analytics_stack, "cluster", qualifier=qualifier)
-iam = IamConstruct(analytics_stack, "iam", qualifier=qualifier)
-
-for key, value in {
-    "Project": "NASA Analytics",
-    "Stack": "dev-stack",
-    "Client": "nasa-impact",
-    "Owner": "ds",
-}.items():
+for key, value in cdk_tags.items():
     if value:
         Tags.of(app).add(key=key, value=value)
 
