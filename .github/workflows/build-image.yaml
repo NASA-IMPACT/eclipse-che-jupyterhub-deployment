@@ -1,4 +1,4 @@
-name: Docker Build
+name: Build Docker Image
 
 on:
   push:
@@ -42,49 +42,3 @@ jobs:
         run: |
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    container:
-      image: 'ghcr.io/nasa-impact/nasa-analytics-environment-deploy:latest'
-      credentials:
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-    steps:
-      - name: Bootstrap account
-        shell: bash
-        run: |
-          cd /opt
-          make bootstrap
-      - name: Install ctls
-        shell: bash
-        run: |
-          cd /opt
-          make install-dependencies
-      - name: Deploy cloud infra
-        shell: bash
-        run: |
-          cd /opt
-          make deploy-cloud
-      - name: Load K8s context
-        run: |
-          cd /opt
-          make k8s
-      - name: Test K8s cluster
-        run: |
-          kubectl get no
-      - name: Deploy nginx ingresscontroller
-        run: |
-          cd /opt
-          make deploy-nginx-ingresscontroller
-      - name: Setup Route53 DNS
-        run: |
-          cd /opt
-          make set-dns-record
-      - name: Deploy cloud infra
-        run: |
-          cd /opt
-          make deploy-che
