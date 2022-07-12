@@ -54,7 +54,7 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Create .env file
-          run: touch .env
+        run: touch .env
       - name: Synthesize app
         shell: bash
         run: |
