@@ -30,6 +30,8 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create .env file
+        run: touch .env
       - name: Build and push prod Docker image
         uses: docker/build-push-action@v3
         with:
