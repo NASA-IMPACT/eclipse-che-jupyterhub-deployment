@@ -8,7 +8,7 @@ from cdk.cluster.construct import ClusterConstruct
 from cdk.iam.construct import IamConstruct
 from config import Settings
 
-config = Settings(_env_file=os.environ.get("ENV_FILE", ".env"))
+config = Settings()
 app = App()
 
 cdk_tags = {

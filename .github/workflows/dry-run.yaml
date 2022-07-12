@@ -53,6 +53,8 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
     steps:
+      - name: Create .env file
+          run: touch .env
       - name: Synthesize app
         shell: bash
         run: |
