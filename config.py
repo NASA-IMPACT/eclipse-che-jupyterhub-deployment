@@ -2,10 +2,10 @@ import pydantic
 
 
 class Settings(pydantic.BaseSettings):
-    project_tag: str
-    stack_tag: str
-    client_tag: str
-    owner_tag: str
+    project_tag: str = "NASA Analytics"
+    stack_tag: str = "dev-stack"
+    client_tag: str = "nasa-impact"
+    owner_tag: str = "ds"
     qualifier: str
     idp_url: str
     idp_user_claim: str
