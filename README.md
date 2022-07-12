@@ -15,7 +15,9 @@ This step is *optional* and useful only if you are developing locally and need t
 
 After building the image, it's time to run it to deploy the infrastructure. There are 4 important environment variables that need to be passed to the container. See _Creating a new cognito app client_ to find your cognito app client's secret and client name.
 
-```docker run -e AWS_ACCESS_KEY_ID="" -e AWS_SECRET_ACCESS_KEY="" -e AUTH_CLIENT_NAME="" -e AUTH_SECRET="" -e QUALIFIER="" -it veda:latest sh```
+```docker run --env-file ./.env-it veda:latest bootstrap-and-deploy```
+
+**NOTE**: This takes approximately 35-40 minutes to run.
 
 ### Creating a new cognito app client
 
@@ -29,3 +31,11 @@ You can then copy the app's client name and secret and add them to the docker ru
 
 **NOTE**: The callback URL should match this syntax `https://{QUALIFIER}-analytics.delta-backend.com/oauth/callback`
 `
+
+### Destroying a cluster
+
+If you do not need to have a particular cluster running, you can destroy all its resources by running:
+
+```docker run --env-file ./.env-it veda:latest destroy```
+
+**NOTE**: This takes approximately 25-30 minutes to run
