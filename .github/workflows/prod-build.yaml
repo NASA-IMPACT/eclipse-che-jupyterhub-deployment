@@ -2,9 +2,9 @@ name: Build Docker Image
 
 on:
   push:
-    # Publish `develop` as Docker `latest` image.
+    # Publish `main` as Docker `latest` image.
     branches:
-      - develop
+      - main
 env:
   IMAGE_NAME: image
 
