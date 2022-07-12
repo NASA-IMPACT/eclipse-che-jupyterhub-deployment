@@ -1,4 +1,4 @@
-"""Setup nasa-analytics-environment-deploy."""
+"""Setup veda-analytics-architecture."""
 
 from setuptools import find_packages, setup
 
@@ -19,7 +19,7 @@ extra_reqs = {
 
 
 setup(
-    name="nasa-analytics-environment-deploy",
+    name="veda-analytics-architecture",
     version="0.0.1",
     description="",
     long_description=long_description,
@@ -29,10 +29,10 @@ setup(
     keywords="",
     author="Development Seed",
     author_email="info@developmentseed.org",
-    url="https://github.com/NASA-IMPACT/nasa-analytics-environment-deploy",
+    url="https://github.com/NASA-IMPACT/veda-analytics-architecture",
     license="MIT",
     packages=find_packages(exclude=["ez_setup", "examples", "tests"]),
-    package_data={"nasa-analytics-environment-deploy": ["templates/*.html", "templates/*.xml"]},
+    package_data={"veda-analytics-architecture": ["templates/*.html", "templates/*.xml"]},
     include_package_data=True,
     zip_safe=False,
     install_requires=[],

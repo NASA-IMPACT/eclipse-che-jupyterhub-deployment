@@ -37,7 +37,7 @@ jobs:
           push: true
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
-          tags: 'ghcr.io/nasa-impact/nasa-analytics-environment-deploy:staging'
+          tags: 'ghcr.io/nasa-impact/veda-analytics-architecture:staging'
       - name: Move cache
         run: |
           rm -rf /tmp/.buildx-cache
