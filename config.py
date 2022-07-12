@@ -9,11 +9,11 @@ class Settings(pydantic.BaseSettings):
     qualifier: str
     idp_url: str
     idp_user_claim: str
-    auth_client_name: str
-    auth_secret: str
+    auth_client_name: str = "not_random_auth_client_name"
+    auth_secret: str = "not_random_auth_secret"
     aws_access_key_id: str
     aws_secret_access_key: str
-    cluster_region: str
+    cluster_region: str = "us-west-2"
 
     class Config:
         env_file = '.env'
