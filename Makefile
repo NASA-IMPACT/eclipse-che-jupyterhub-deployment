@@ -22,17 +22,15 @@ bootstrap:
 synth:
 	cdk synth --qualifier ${QUALIFIER} --toolkit-stack-name ${QUALIFIER}
 
-deploy: deploy-cloud configure-idp deploy-nginx-ingresscontroller set-dns-record deploy-che
+deploy: deploy-cloud deploy-nginx-ingresscontroller set-dns-record deploy-che
 
 bootstrap-and-deploy: bootstrap deploy
-
-configure-idp: k8s
-	scripts/configure-idp.sh
 
 patch-che:
 	envsubst < scripts/templates/che-operator-cr-template.yaml > operator-patch.yaml
 
 deploy-che: k8s patch-che
+	scripts/configure-idp.sh
 	scripts/configure-che.sh
 
 update-che: k8s patch-che
