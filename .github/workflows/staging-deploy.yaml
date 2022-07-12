@@ -1,4 +1,4 @@
-name: Tim's Deploy
+name: Staging Deploy
 
 on:
   workflow_run:
@@ -11,7 +11,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     env:
-      QUALIFIER: "timalytics"
+      QUALIFIER: "staging"
       AUTH_CLIENT_NAME: "TEST_A"
       AUTH_CLIENT_SECRET: "TEST_B"
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
