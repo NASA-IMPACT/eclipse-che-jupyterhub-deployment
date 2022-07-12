@@ -12,8 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       QUALIFIER: "analytics"
-      AUTH_CLIENT_NAME: "TEST_C"
-      AUTH_CLIENT_SECRET: "TEST_D"
+      AUTH_CLIENT_NAME: ${{ secrets.AUTH_CLIENT_NAME }}
+      AUTH_CLIENT_SECRET: ${{ secrets.AUTH_CLIENT_SECRET }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
