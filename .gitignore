@@ -142,3 +142,4 @@ cdk.context.json
 .idea
 
 scripts/che-install.sh
+!.env.template

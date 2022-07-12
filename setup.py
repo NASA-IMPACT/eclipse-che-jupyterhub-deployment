@@ -11,6 +11,7 @@ extra_reqs = {
         "aws-cdk-lib<3.0.0,>=2.15.0",
         "constructs>=10.0.0,<11.0.0",
         "pydantic",
+        "python-dotenv"
     ],
     "test": [
     ],
