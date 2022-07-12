@@ -13,9 +13,11 @@ This step is *optional* and useful only if you are developing locally and need t
 
 #### 2. Running the image
 
-After building the image, it's time to run it to deploy the infrastructure. There are 4 important environment variables that need to be passed to the container. See _Creating a new cognito app client_ to find your cognito app client's secret and client name.
+After building the image, it's time to run it to deploy the infrastructure.
+Make sure that you have created a `.env` file that contains all the required environment variable that are needed for the deployment to properly work.
+You can use the `.env.template` file to create and fill your `.env` file.
 
-```docker run --env-file ./.env-it veda:latest bootstrap-and-deploy```
+```docker run --env-file ./.env -it veda:latest bootstrap-and-deploy```
 
 **NOTE**: This takes approximately 35-40 minutes to run.
 
