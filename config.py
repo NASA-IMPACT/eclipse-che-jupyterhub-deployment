@@ -13,6 +13,7 @@ class Settings(pydantic.BaseSettings):
     auth_secret: str
     aws_access_key_id: str
     aws_secret_access_key: str
+    cluster_region: str
 
     class Config:
         env_file = '.env'
