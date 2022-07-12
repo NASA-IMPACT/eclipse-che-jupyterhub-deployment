@@ -1,0 +1,18 @@
+{
+  "Comment": "Route53 record pointing to the VEDA Analytics ELB",
+  "Changes": [
+    {
+      "Action": "${ROUTE53_ACTION}",
+      "ResourceRecordSet": {
+        "Name": "${QUALIFIER}-analytics.delta-backend.com",
+        "Type": "CNAME",
+        "TTL": 300,
+        "ResourceRecords": [
+          {
+            "Value": "${ELB_HOSTNAME}"
+          }
+        ]
+      }
+    }
+  ]
+}

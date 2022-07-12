@@ -18,28 +18,35 @@ bootstrap:
 synth:
 	export QUALIFIER=${QUALIFIER}; cdk synth --qualifier ${QUALIFIER} --toolkit-stack-name ${QUALIFIER}
 
-k8s:
-	export QUALIFIER=${QUALIFIER}; scripts/connect-k8s.sh
+deploy: deploy-cloud configure-idp deploy-nginx-ingresscontroller set-dns-record deploy-che
 
-deploy: deploy-cloud deploy-nginx-ingresscontroller deploy-che
+bootstrap-and-deploy: bootstrap deploy
 
-deploy-all: bootstrap install-chectl deploy
+configure-idp: k8s
+	export IDP_USER_CLAIM=${IDP_USER_CLAIM}; export IDP_URL=${IDP_URL}; scripts/configure-idp.sh
 
 patch-che:
-	export IDP_USER_CLAIM=${IDP_USER_CLAIM}; export IDP_URL=${IDP_URL}; envsubst < che-operator-cr-patch.yaml > operator-patch-envs.yaml
+	export IDP_USER_CLAIM=${IDP_USER_CLAIM}; export IDP_URL=${IDP_URL}; envsubst < scripts/templates/che-operator-cr-template.yaml > operator-patch.yaml
 
-deploy-che: patch-che
+deploy-che: k8s patch-che
 	export QUALIFIER=${QUALIFIER}; scripts/configure-che.sh
 
-update-che: patch-che
-	export IDP_USER_CLAIM=${IDP_USER_CLAIM}; export IDP_URL=${IDP_URL}; envsubst < che-operator-cr-patch.yaml > operator-patch-envs.yaml
-	chectl server:update --che-operator-cr-patch-yaml=operator-patch-envs.yaml --telemetry=off
+update-che: k8s patch-che
+	export IDP_USER_CLAIM=${IDP_USER_CLAIM}; export IDP_URL=${IDP_URL}; envsubst < scripts/templates/che-operator-cr-template.yaml > operator-patch.yaml
+	chectl server:update --che-operator-cr-patch-yaml=operator-patch.yaml --telemetry=off
 
 deploy-nginx-ingresscontroller: k8s
 	kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.2.0/deploy/static/provider/cloud/deploy.yaml
 
-deploy-cloud: k8s
+deploy-cloud:
 	export IDP_URL=${IDP_URL}; export IDP_USER_CLAIM=${IDP_USER_CLAIM}; export QUALIFIER=${QUALIFIER}; scripts/deploy.sh
 
 destroy: k8s
 	export QUALIFIER=${QUALIFIER}; scripts/destroy.sh
+
+k8s:
+	export QUALIFIER=${QUALIFIER}; scripts/connect-k8s.sh
+
+set-dns-record:
+	export ROUTE53_ACTION="UPSERT"; scripts/set-dns-record.sh
+	
