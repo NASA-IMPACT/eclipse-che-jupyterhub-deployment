@@ -34,6 +34,11 @@ You can then copy the app's client name and secret and add them to the docker ru
 **NOTE**: The callback URL should match this syntax `https://{QUALIFIER}-analytics.delta-backend.com/oauth/callback`
 `
 
+### Adding a user to gain access to che
+
+To add a user, follow the gif below
+![add a user](images/docs/CleanShot 2022-07-12 at 17.31.12.gif)
+
 ### Destroying a cluster
 
 If you do not need to have a particular cluster running, you can destroy all its resources by running:
