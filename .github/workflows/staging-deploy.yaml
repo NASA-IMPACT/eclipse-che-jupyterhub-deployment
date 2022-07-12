@@ -12,8 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       QUALIFIER: "staging"
-      AUTH_CLIENT_NAME: "TEST_A"
-      AUTH_CLIENT_SECRET: "TEST_B"
+      AUTH_CLIENT_NAME: ${{ secrets.AUTH_CLIENT_NAME_STAGING }}
+      AUTH_CLIENT_SECRET: ${{ secrets.AUTH_CLIENT_SECRET_STAGING }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
