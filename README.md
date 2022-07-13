@@ -17,7 +17,7 @@ After building the image, it's time to run it to deploy the infrastructure.
 Make sure that you have created a `.env` file that contains all the required environment variable that are needed for the deployment to properly work.
 You can use the `.env.template` file to create and fill your `.env` file.
 
-```docker run --env-file ./.env -it veda:latest bootstrap-and-deploy```
+`docker run --env-file ./.env -it veda:latest bootstrap-and-deploy`
 
 **NOTE**: This takes approximately 35-40 minutes to run.
 
@@ -32,7 +32,6 @@ To do so, head to [Cognito's create app client page](https://us-west-2.console.a
 You can then copy the app's client name and secret and add them to the docker run's environment variable.
 
 **NOTE**: The callback URL should match this syntax `https://{QUALIFIER}-analytics.delta-backend.com/oauth/callback`
-`
 
 ### Adding a user to gain access to che
 
@@ -43,6 +42,6 @@ To add a user, follow the gif below
 
 If you do not need to have a particular cluster running, you can destroy all its resources by running:
 
-```docker run --env-file ./.env-it veda:latest destroy```
+`docker run --env-file ./.env-it veda:latest destroy`
 
 **NOTE**: This takes approximately 25-30 minutes to run
