@@ -1,15 +1,14 @@
-
 # VEDA Analytics
 
 ### Deploying the infrastructure
 
 #### 1. Building the image
 
-This step is *optional* and useful only if you are developing locally and need to test your deployment. If you are just trying to deploy a new cluster without having made any changes locally, you can skip this step.
+This step is _optional_ and useful only if you are developing locally and need to test your deployment. If you are just trying to deploy a new cluster without having made any changes locally, you can skip this step.
 
 `docker build . -t veda`
 
-**NOTE**:  if you are on an M1 Mac, you have to include the `--platform=linux/amd64` tag to your docker commands to avoid compatibility issues.
+**NOTE**: if you are on an M1 Mac, you have to include the `--platform=linux/amd64` tag to your docker commands to avoid compatibility issues.
 
 #### 2. Running the image
 
