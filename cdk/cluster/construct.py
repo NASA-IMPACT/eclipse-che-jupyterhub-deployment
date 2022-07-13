@@ -43,5 +43,6 @@ class ClusterConstruct(Construct):
                                   vpc_subnets=[
                                       aws_ec2.SubnetSelection(subnet_type=aws_ec2.SubnetType.PRIVATE_WITH_NAT)],
                                   masters_role=role,
-                                  tags=cdk_tags
+                                  tags=cdk_tags,
+                                  clusterName=f"analytics-cluster-{qualifier}"
                                   )
