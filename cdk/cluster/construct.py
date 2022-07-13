@@ -44,5 +44,5 @@ class ClusterConstruct(Construct):
                                       aws_ec2.SubnetSelection(subnet_type=aws_ec2.SubnetType.PRIVATE_WITH_NAT)],
                                   masters_role=role,
                                   tags=cdk_tags,
-                                  clusterName=f"analytics-cluster-{qualifier}"
+                                  cluster_name=f"analytics-cluster-{qualifier}"
                                   )
