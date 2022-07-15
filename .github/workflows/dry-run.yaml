@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: lowercase github_repository
         run: |
-          echo "repository=${{github.repository,,}}" >> ${GITHUB_ENV}
+          echo "repository=${github.repository,,}" >> ${GITHUB_ENV}
       - name: Checkout
         uses: actions/checkout@v2
       - name: Set up Docker Buildx
