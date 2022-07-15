@@ -17,7 +17,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     container:
-      image: 'ghcr.io/nasa-impact/veda-analytics-architecture:staging'
+      image: 'ghcr.io/${{ github.repository }}:staging'
       credentials:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
