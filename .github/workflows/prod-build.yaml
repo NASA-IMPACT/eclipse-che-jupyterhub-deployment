@@ -39,7 +39,7 @@ jobs:
           push: true
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
-          tags: 'ghcr.io/${{ github.repository }}:latest'
+          tags: 'ghcr.io/nasa-impact/veda-analytics-architecture:latest'
       - name: Move cache
         run: |
           rm -rf /tmp/.buildx-cache

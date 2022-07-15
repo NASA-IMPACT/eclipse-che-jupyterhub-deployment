@@ -10,9 +10,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: lowercase github_repository
-        run: |
-          echo "repository=${github.repository,,}" >> ${GITHUB_ENV}
       - name: Checkout
         uses: actions/checkout@v2
       - name: Set up Docker Buildx
@@ -39,7 +36,7 @@ jobs:
           push: true
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
-          tags: 'ghcr.io/${{ github.repository }}:${{ github.run_id }}'
+          tags: 'ghcr.io/nasa-impact/veda-analytics-architecture:${{ github.run_id }}'
       - name: Move cache
         run: |
           rm -rf /tmp/.buildx-cache
@@ -51,7 +48,7 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     container:
-      image: 'ghcr.io/${{ github.repository }}:${{ github.run_id }}'
+      image: 'ghcr.io/nasa-impact/veda-analytics-architecture:${{ github.run_id }}'
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
