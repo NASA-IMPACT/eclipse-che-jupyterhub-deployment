@@ -26,6 +26,7 @@ RUN apt-get update && apt-get install -y kubectl
 
 WORKDIR /opt
 
+COPY .env .
 COPY setup.py .
 COPY README.md .
 
