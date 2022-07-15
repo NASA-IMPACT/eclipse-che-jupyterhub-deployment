@@ -12,7 +12,7 @@ spec:
     auth:
       identityProviderURL: ${IDP_URL}
       oAuthClientName: ${AUTH_CLIENT_NAME}
-      oAuthSecret: ${AUTH_SECRET}
+      oAuthSecret: ${AUTH_CLIENT_SECRET}
   components:
     cheServer:
       extraProperties:
