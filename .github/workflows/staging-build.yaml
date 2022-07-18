@@ -6,10 +6,10 @@ on:
     branches:
       - develop
 env:
-  IMAGE_NAME: image
-
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  
 jobs:
-  # See also https://docs.docker.com/docker-hub/builds/automated-testing/
   build:
     runs-on: ubuntu-latest
     steps:
@@ -21,9 +21,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
+          key: ${{ runner.os }}-buildxv:
+  # Use docker.io for Docker Hub if 
+  # github.repository as <account>/<}}
       - name: Create .env file
         run: touch .env
       - name: Log in to the Container registry
@@ -32,6 +32,13 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: type=raw,value=staging
+
       - name: Build and push staging Docker image
         uses: docker/build-push-action@v3
         with:
@@ -39,7 +46,7 @@ jobs:
           push: true
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
-          tags: 'ghcr.io/nasa-impact/nasa-analytics-environment-deploy:staging'
+          tags: ${{ steps.meta.outputs.tags }}
       - name: Move cache
         run: |
           rm -rf /tmp/.buildx-cache
