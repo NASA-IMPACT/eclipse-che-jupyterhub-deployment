@@ -21,7 +21,11 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildxv:
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+      - name: Create .env file
+        run: touch .env
   # Use docker.io for Docker Hub if 
   # github.repository as <account>/<}}
       - name: Create .env file
@@ -38,7 +42,6 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: type=raw,value=staging
-
       - name: Build and push staging Docker image
         uses: docker/build-push-action@v3
         with:
