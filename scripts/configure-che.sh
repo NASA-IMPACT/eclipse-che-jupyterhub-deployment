@@ -1,10 +1,9 @@
 #!/bin/sh
 
 CHE_STATUS=$(chectl server:status --telemetry=off)
+COMMAND_STATUS=$?
 
-if [[ $CHE_STATUS == *"Eclipse Che Version"* ]]; then
-  chectl server:update --che-operator-cr-patch-yaml=operator-patch.yaml --telemetry=off -y
-fi
+[ $COMMAND_STATUS -eq 0 ] && chectl server:update --che-operator-cr-patch-yaml=operator-patch.yaml --telemetry=off -y
 
 chectl server:deploy --platform k8s --che-operator-cr-patch-yaml=operator-patch.yaml --domain "${QUALIFIER}-analytics.delta-backend.com" --skip-oidc-provider-check --telemetry=off
 
