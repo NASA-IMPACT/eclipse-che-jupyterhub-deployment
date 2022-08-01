@@ -17,3 +17,6 @@ spec:
     cheServer:
       extraProperties:
         CHE_OIDC_USERNAME__CLAIM: ${IDP_USER_CLAIM}
+    devfileRegistry:
+      externalDevfileRegistries: [{ url: "https://veda-analytics-che-devfiles.s3.us-west-2.amazonaws.com/" } ]
+
