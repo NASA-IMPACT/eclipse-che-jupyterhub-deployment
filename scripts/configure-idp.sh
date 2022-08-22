@@ -1,6 +1,6 @@
 #!/bin/sh
 echo QU:$QUALIFIER
-CLUSTER_NAME=$(aws eks list-clusters --query "clusters[?contains(@, 'clusteranalyticscluster$QUALIFIER')]" --output text)
+CLUSTER_NAME=$(aws eks list-clusters --query "clusters[?contains(@, 'analytics-cluster-$QUALIFIER')]" --output text)
 echo "Cluster name is $CLUSTER_NAME"
 IDP_COUNT="$(($(eksctl get identityprovider --cluster $CLUSTER_NAME | wc -l)-1))"
 echo "Found $IDP_COUNT IDP(s)"

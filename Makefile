@@ -5,6 +5,7 @@ QUALIFIER ?= analytics
 IDP_URL ?= https://cognito-idp.us-west-2.amazonaws.com/us-west-2_OJVQQhBQQ
 IDP_USER_CLAIM ?= email
 ROUTE53_ACTION ?= UPSERT
+CLUSTER_REGION ?= "us-west-2"
 
 install-chectl:
 	./scripts/install-chectl.sh

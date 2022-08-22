@@ -1,5 +1,14 @@
 #!/bin/sh
-chectl server:deploy --platform k8s --che-operator-cr-patch-yaml=operator-patch.yaml --domain "${QUALIFIER}-analytics.delta-backend.com" --skip-oidc-provider-check --telemetry=off
+
+CHE_STATUS=$(chectl server:status --telemetry=off)
+COMMAND_STATUS=$?
+
+if [ $COMMAND_STATUS -eq 0 ]
+then
+  chectl server:update --che-operator-cr-patch-yaml=operator-patch.yaml --telemetry=off -y
+else
+  chectl server:deploy --platform k8s --che-operator-cr-patch-yaml=operator-patch.yaml --domain "${QUALIFIER}-analytics.delta-backend.com" --skip-oidc-provider-check --telemetry=off
+fi
 
 export CERTMANAGER_KEY_ID=$(aws secretsmanager get-secret-value --secret-id "certmanager-accesskeyid-${QUALIFIER}" --query SecretString --output text)
 export CERTMANAGER_SECRET=$(aws secretsmanager get-secret-value --secret-id "certmanager-accesskey-secret-${QUALIFIER}" --query SecretString --output text)
